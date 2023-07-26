@@ -1,13 +1,70 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Merienda', cursive;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* label:hover {
+  border-color: black !important;
+} */
+
+div label{
+  padding-right: 1rem;
+}
+
+header .nav-link {
+  color: white;
+}
+
+.nav-link {
+  color: black;
+}
+
+.modal img {
+  object-fit: scale-down !important;
+  height: auto !important;
+  margin-top: 1rem;
+}
+
+.carousel-inner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.carousel-item {
+  display: block;
+  margin-right: 0;
+  flex: 0 0 calc(100%/4);
+}
+
+@media screen and (orientation: portrait) {
+  .col-md-4 img {
+    max-height: 320px;
+    object-fit: none !important;
+    box-shadow: none !important;
+  }
+
+  nav a {
+    text-align: center;
+  }
+
+  .modal .col-md-4 img {
+    max-height: 240px;
+    object-fit: contain !important;
+  }
+}
+
+@media (max-width: 400px) {
+  .product-card {
+    max-width: 100% !important;
+    flex-direction: row;
+  }
+
+  .product-card img {
+    max-width: 50% !important;
+    object-fit: scale-down;
+    margin-right: 1rem;
+  }
 }
