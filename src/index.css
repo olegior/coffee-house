@@ -9,7 +9,7 @@ body {
   border-color: black !important;
 } */
 
-div label{
+div label {
   padding-right: 1rem;
 }
 
@@ -56,7 +56,7 @@ header .nav-link {
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 560px) {
   .product-card {
     max-width: 100% !important;
     flex-direction: row;
@@ -66,5 +66,15 @@ header .nav-link {
     max-width: 50% !important;
     object-fit: scale-down;
     margin-right: 1rem;
+  }
+
+  .gap-5 {
+    gap: 1rem !important;
+  }
+
+  .row>.col-md-4,
+  .row> div.col-md-8 {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
   }
 }

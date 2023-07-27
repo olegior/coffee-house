@@ -7,17 +7,23 @@ import { Products } from '../components/Products'
 import { SearchFilterPanel } from '../components/SearchFilterPanel'
 
 export const OurCoffe = ({ products }) => {
-    const countries = [...new Set(products.map(product => product.country))];
-    const brands = [...new Set(products.map(product => product.brand))];
-
+    const country = [...new Set(products.map(product => product.country))];
+    const brand = [...new Set(products.map(product => product.brand))];
+    const roastDegree = [...new Set(products.map(product => product.roastDegree))];
+    const type = [...new Set(products.map(product => product.type))];
+    // const available =        [...new Set(products.map(product => product.available))];
+    // console.log(products[0]);
     const [visibleProducts, setVisibleProducts] = useState([]);
     const [searchReq, setSearchReq] = useState('');
     const [sortBy, setSortBy] = useState('');
+    const [available, setAvailable] = useState(false);
 
     const [filters, setFilters] = useState(
         {
-            countries: countries.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-            brands: brands.reduce((acc, e) => ({ ...acc, [e]: false }), {})
+            country: country.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
+            brand: brand.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
+            roastDegree: roastDegree.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
+            type: type.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
         }
     );
 
@@ -34,21 +40,57 @@ export const OurCoffe = ({ products }) => {
     }
 
     const filterVisibleProducts = (products) => {
-        const [countries, brands] = Object.keys(filters)
-            .map(e => Object.keys(filters[e])
-                .filter(key => Boolean(filters[e][key])));
-        let visibleProducts = structuredClone(products)
-        if (countries.length)
-            visibleProducts = visibleProducts.filter(product => countries.includes(product.country));
-        if (brands.length)
-            visibleProducts = visibleProducts.filter(product => brands.includes(product.brand));
+        // преобразование в удобный вид
+        const activeFilters = Object.keys(filters)
+            .map(e => ({
+                [e]: Object.keys(filters[e])
+                    .filter(key => Boolean(filters[e][key]))
+            }))
+
+
+        // если фильтры не установлены - вернуть исходный массив
+        if (!activeFilters.filter(e => {
+            const [values] = Object.values(e);
+            return values.length
+        }).length && !available)
+            return products
+
+        // копируем массив и фильтруем
+        let visibleProducts = structuredClone(products);
+
+        // переделать
+        if (available)
+            return visibleProducts.filter(product => product.available)
+
+            
+        activeFilters.forEach(e => {
+            const [[key, value]] = Object.entries(e);
+            if (value.length)
+                visibleProducts = visibleProducts
+                    .filter(product => value.includes(product[key]));
+        })
+        console.log(available);
+
         return visibleProducts
     }
 
     const sortProducts = (products) => {
-        const [prop, type] = sortBy.split('-');
+        if (!sortBy.length)
+            return products
+        const [prop, direction] = sortBy.split('-');
         const sorted = structuredClone(products);
-        sorted.sort((a, b) => type === 'up' ? a[prop] - b[prop] : b[prop] - a[prop]);
+        // переделать сортировку
+        sorted.sort((a, b) => {
+            if (direction === 'up') {
+                if (!isNaN(sorted[prop]))
+                    return a[prop] - b[prop]
+                return a[prop].localeCompare(b[prop]);
+            } else {
+                if (!isNaN(sorted[prop]))
+                    return b[prop] - a[prop]
+                return b[prop].localeCompare(a[prop]);
+            }
+        });
         return sorted;
     }
 
@@ -57,7 +99,6 @@ export const OurCoffe = ({ products }) => {
     }
 
     useEffect(() => {
-        // try {
         setVisibleProducts(
             sortProducts(
                 filterVisibleProducts(
@@ -67,19 +108,14 @@ export const OurCoffe = ({ products }) => {
                 )
             )
         );
-        // }
-        // catch (e) {
-        //     console.log(e);
-        //     setVisibleProducts([]);
-        // }
-    }, [searchReq, sortBy, filters]);
+    }, [searchReq, sortBy, filters, available]);
 
     return (
         <>
             <Header img='ourcoffee'>
                 <h2 className='my-5'>Our Coffee</h2>
             </Header>
-            <div className='container'>
+            <div className='container-lg'>
                 <Description img='ourcoffee'>
                     <About title={'About our beans'}>
                         <p className='lead text-center'>Extremity sweetness difficult behaviour he of. On disposal of as landlord horrible.</p>
@@ -91,7 +127,10 @@ export const OurCoffe = ({ products }) => {
                     </About>
                 </Description>
                 <div className='border-bottom border-black mx-auto' style={{ width: 240, height: 1 }} />
-                <SearchFilterPanel filters={[countries,brands]} search={setSearchReq} filter={toggleFilter} sorting={setSortBy} />
+                <SearchFilterPanel filters={[country, brand, roastDegree, type, available]}
+                    search={setSearchReq} filter={toggleFilter} sorting={setSortBy}
+                    isAvailable={setAvailable}
+                />
                 <Products products={visibleProducts} />
             </div>
             <Footer />
