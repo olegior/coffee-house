@@ -60,9 +60,9 @@ export const OurCoffe = ({ products }) => {
 
         // переделать
         if (available)
-            return visibleProducts.filter(product => product.available)
+            visibleProducts = visibleProducts.filter(product => product.available)
 
-            
+
         activeFilters.forEach(e => {
             const [[key, value]] = Object.entries(e);
             if (value.length)

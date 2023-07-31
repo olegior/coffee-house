@@ -12,7 +12,7 @@ export const SearchFilterPanel = ({ filters, filters: [countries, brands, roastD
             </div>
             <div className='d-flex flex-row justify-content-between align-items-center'>
                 <label htmlFor="filters">Filter by</label>
-                <div id="filters" className='d-flex flex-row justify-content-between'>
+                <div id="filters" className='d-flex flex-row justify-content-between flex-wrap gap-1'>
                     {/* переделать под автоматическое заполнение */}
 
                     <div className='d-flex flex-row justify-content-center align-items-center'>

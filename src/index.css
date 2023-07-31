@@ -5,10 +5,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* label:hover {
-  border-color: black !important;
-} */
-
 div label {
   padding-right: 1rem;
 }
@@ -37,6 +33,21 @@ header .nav-link {
   display: block;
   margin-right: 0;
   flex: 0 0 calc(100%/4);
+}
+
+.badge-container {
+  position: absolute;
+  max-width: 50%;
+  top: 10;
+  width: fit-content;
+}
+
+.badge-container>span {
+  margin: 5px;
+}
+
+.product-card:hover {
+  outline: 1px solid rgb(180, 180, 180);
 }
 
 @media screen and (orientation: portrait) {
@@ -73,8 +84,25 @@ header .nav-link {
   }
 
   .row>.col-md-4,
-  .row> div.col-md-8 {
+  .row>div.col-md-8 {
     padding-top: 0 !important;
     padding-bottom: 0 !important;
+  }
+
+  .badge-container {
+    max-width: 20%;
+  }
+
+  /* div:has(.lh-1) {
+    align-items: flex-end !important; 
+    align-items: flex-end !important;
+
+  } */
+  .card-body div:last-child {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .card-body div:last-child p{
+    line-height: normal !important;
   }
 }

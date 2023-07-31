@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import { ModalContext } from '../App'
+import { Badges } from './Badges';
 
 export const ProductCard = ({ title, country, price, description, img,
     acidity,
@@ -17,8 +18,10 @@ export const ProductCard = ({ title, country, price, description, img,
 }) => {
     const [, setModalContent] = useContext(ModalContext);
     const classes = `card shadow p-4 product-card w-100 h-100 ${!available && 'bg-dark bg-opacity-25'}`;
+
+
     return (
-        <div className={classes} style={{ maxWidth: '240px', maxHeight: '330px' }}
+        <div className={classes} style={{ maxWidth: '240px', maxHeight: '360px' }}
             data-bs-toggle="modal"
             data-bs-target="#modal"
             onClick={() => setModalContent({
@@ -36,6 +39,7 @@ export const ProductCard = ({ title, country, price, description, img,
                 type,
             })}
         >
+            {available && <Badges label={label} />}
             <img src={`assets/content/${img}.jpg`} className="card-img-top img-fluid" alt={title}
                 style={
                     !available ? { height: '170px', filter: 'grayscale(100%)' } : { height: '170px' }
