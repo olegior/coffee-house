@@ -17,7 +17,7 @@ export const ProductCard = ({ title, country, price, description, img,
     type,
 }) => {
     const [, setModalContent] = useContext(ModalContext);
-    const classes = `card shadow p-4 product-card w-100 h-100 ${!available && 'bg-dark bg-opacity-25'}`;
+    const classes = `card shadow p-3 product-card w-100 h-100 ${!available && 'bg-dark bg-opacity-25'}`;
 
 
     return (

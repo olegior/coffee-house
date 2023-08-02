@@ -23,7 +23,7 @@ header .nav-link {
   margin-top: 1rem;
 }
 
-.carousel-inner {
+/* .carousel-inner {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -33,7 +33,7 @@ header .nav-link {
   display: block;
   margin-right: 0;
   flex: 0 0 calc(100%/4);
-}
+} */
 
 .badge-container {
   position: absolute;
@@ -49,6 +49,10 @@ header .nav-link {
 .product-card:hover {
   outline: 1px solid rgb(180, 180, 180);
 }
+
+/* input[type="range"]{
+  accent-color: red !important;
+} */
 
 @media screen and (orientation: portrait) {
   .col-md-4 img {
@@ -79,8 +83,16 @@ header .nav-link {
     margin-right: 1rem;
   }
 
-  .gap-5 {
+  /* .gap-5 {
     gap: 1rem !important;
+  } */
+
+  div:has(.card){
+    gap: 1rem !important;
+  }
+
+  .filters{
+    flex-direction: column !important;
   }
 
   .row>.col-md-4,

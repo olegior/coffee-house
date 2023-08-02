@@ -9,7 +9,7 @@ import { SearchFilterPanel } from '../components/SearchFilterPanel'
 export const OurCoffe = ({ products }) => {
     const country = [...new Set(products.map(product => product.country))];
     const brand = [...new Set(products.map(product => product.brand))];
-    const roastDegree = [...new Set(products.map(product => product.roastDegree))];
+    const roast = [...new Set(products.map(product => product.roast))];
     const type = [...new Set(products.map(product => product.type))];
     // const available =        [...new Set(products.map(product => product.available))];
     // console.log(products[0]);
@@ -22,10 +22,22 @@ export const OurCoffe = ({ products }) => {
         {
             country: country.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
             brand: brand.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-            roastDegree: roastDegree.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
+            roast: roast.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
             type: type.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
         }
     );
+
+    const [rangeFilters, setRangeFilters] = useState({
+        density: 5,
+        acidity: 5
+    });
+
+    const handleRangeFilter = (name, value) => {
+        setRangeFilters((prev) => {
+            console.log({ ...prev, [name]: +value });
+            return { ...prev, [name]: +value }
+        })
+    }
 
     const toggleFilter = (title, item) => {
         setFilters((prev) => {
@@ -47,16 +59,18 @@ export const OurCoffe = ({ products }) => {
                     .filter(key => Boolean(filters[e][key]))
             }))
 
-
-        // если фильтры не установлены - вернуть исходный массив
-        if (!activeFilters.filter(e => {
-            const [values] = Object.values(e);
-            return values.length
-        }).length && !available)
-            return products
-
         // копируем массив и фильтруем
         let visibleProducts = structuredClone(products);
+        visibleProducts = visibleProducts.filter(e =>
+            e.acidity <= rangeFilters.acidity && e.density <= rangeFilters.density);
+
+        // если фильтры не установлены - вернуть исходный массив
+
+        // if (!activeFilters.filter(e => {
+        //     const [values] = Object.values(e);
+        //     return values.length
+        // }).length && !available)
+        //     return products
 
         // переделать
         if (available)
@@ -69,7 +83,9 @@ export const OurCoffe = ({ products }) => {
                 visibleProducts = visibleProducts
                     .filter(product => value.includes(product[key]));
         })
-        console.log(available);
+
+        //если активирован range
+
 
         return visibleProducts
     }
@@ -108,7 +124,7 @@ export const OurCoffe = ({ products }) => {
                 )
             )
         );
-    }, [searchReq, sortBy, filters, available]);
+    }, [searchReq, sortBy, filters, available, rangeFilters]);
 
     return (
         <>
@@ -127,7 +143,9 @@ export const OurCoffe = ({ products }) => {
                     </About>
                 </Description>
                 <div className='border-bottom border-black mx-auto' style={{ width: 240, height: 1 }} />
-                <SearchFilterPanel filters={[country, brand, roastDegree, type, available]}
+
+                <SearchFilterPanel filters={[country, brand, roast, type, available]}
+                    rangeFilters={rangeFilters} handleRangeFilter={handleRangeFilter}
                     search={setSearchReq} filter={toggleFilter} sorting={setSortBy}
                     isAvailable={setAvailable}
                 />

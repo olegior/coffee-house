@@ -11,7 +11,6 @@ export const Modal = () => {
         density, label,
         // ...other
     } = modalContent;
-    console.log(label);
     const cardItems = ['country', 'brand', 'price', 'category', 'roastDegree', 'taste', 'type',];
     return (
         <div className="modal fade" id="modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
