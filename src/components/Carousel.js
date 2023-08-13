@@ -5,9 +5,11 @@ export const Carousel = ({ products }) => {
 
     return (
         <div id="carousel" className="carousel slide carousel-dark"
-            // data-bs-theme="dark"
+        // data-bs-theme="dark"
         >
-            <div className="carousel-inner justify-content-center d-flex">
+            <div className="carousel-inner 
+            justify-content-center d-flex
+            ">
                 {products.map((product, i) => {
                     let className = 'carousel-item';
                     return (<div

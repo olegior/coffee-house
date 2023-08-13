@@ -16,11 +16,11 @@ function generateRandomTastes() {
     return Array.from(randomTastes);
 }
 
-const countries = ['Бразилия', 'Колумбия', 'Эфиопия', 'Кения', 'Мексика'];
+const countries = ['Brasil', 'Columbia', 'Ethiopia', 'Kenya', 'Mexica'];
 
 const brands = ['Lavazza', 'Illy', 'Starbucks', 'Nespresso', 'McCafé', 'Costa Coffee', 'Paulig', 'Dallmayr', 'Tchibo'];
 
-const coffeeNames = ['Классический эспрессо', 'Арабика из Колумбии', 'Итальянская смесь', 'Кенийская радость', 'Эфиопское сокровище', 'Бразильская фантазия', 'Мексиканская гармония', 'Аромат', 'Ритм'];
+const coffeeNames = ['Oro','Classic', 'Espresso', 'Italiano', 'Green Kenya', 'Sunny Ethiopia', 'Bright Brasile', 'Taste of Mexico', 'Aroma', 'Rytm', 'Crema', 'Intenso', 'Tierra', 'Expert', 'Prodomo'];
 
 const sizes = [200, 500, 1000];
 
@@ -30,7 +30,7 @@ const labels = ['хит', 'новинка', 'советуем', 'особый б
 
 const roasts = ['средняя', 'светлая', 'темная'];
 
-const coffeeTypes = ['арабика', 'робуста', 'либерика', 'смесь'];
+const coffeeTypes = ['арабика', 'робуста', 'смесь'];
 
 const images = ['aromistico', 'solimo', 'presto'];
 
@@ -84,7 +84,7 @@ for (let i = 1; i <= 100; i++) {
     };
     coffeeArray.push(coffee);
 }
-console.log (coffeeArray);
+// console.log (coffeeArray);
 
 return (coffeeArray);
 }) ();

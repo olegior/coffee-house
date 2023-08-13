@@ -38,7 +38,8 @@ header .nav-link {
 .badge-container {
   position: absolute;
   max-width: 50%;
-  top: 10;
+  /* top: 10; */
+  z-index: 100;
   width: fit-content;
 }
 
@@ -87,11 +88,11 @@ header .nav-link {
     gap: 1rem !important;
   } */
 
-  div:has(.card){
+  div:has(.card) {
     gap: 1rem !important;
   }
 
-  .filters{
+  .filters {
     flex-direction: column !important;
   }
 
@@ -114,7 +115,15 @@ header .nav-link {
     padding: 0 !important;
     margin: 0 !important;
   }
-  .card-body div:last-child p{
+
+  .card-body div:last-child p {
     line-height: normal !important;
   }
 }
+
+/* @media (max-width: 1000px) {
+  .modal-body.container.card.row {
+    flex-direction: column !important;
+  }
+
+} */

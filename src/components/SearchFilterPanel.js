@@ -2,7 +2,9 @@ import { Filtration } from './Filtration'
 import { RangeFiltration } from './RangeFiltration'
 import { Sorting } from './Sorting'
 
-export const SearchFilterPanel = ({ filters, filters: [countries, brands, roast, type, available], search, filter, sorting, isAvailable,rangeFilters, handleRangeFilter }) => {
+export const SearchFilterPanel = ({ filters, filters: [countries, brands, roast, type, available, label], 
+    search, filter, sorting, isAvailable, rangeFilters, handleRangeFilter, handleLabelFilter }) => {
+    // console.log(label);
     return (
         <>
             <div className="d-flex flex-row flex-wrap my-4 justify-content-between align-items-center">
@@ -28,6 +30,7 @@ export const SearchFilterPanel = ({ filters, filters: [countries, brands, roast,
                     <Filtration filter={filter} items={countries} title={'country'} />
                     <Filtration filter={filter} items={roast} title={'roast'} />
                     <Filtration filter={filter} items={type} title={'type'} />
+                    <Filtration filter={handleLabelFilter} items={label} title={'label'} />
 
                     <RangeFiltration cb={handleRangeFilter} title='acidity' rangValue={rangeFilters['acidity']} />
                     <RangeFiltration cb={handleRangeFilter} title='density' rangValue={rangeFilters['density']} />

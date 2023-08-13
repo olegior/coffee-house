@@ -24,6 +24,7 @@ export const ProductCard = ({ title, country, price, description, img,
         <div className={classes} style={{ maxWidth: '240px', maxHeight: '360px' }}
             data-bs-toggle="modal"
             data-bs-target="#modal"
+            // Делегировать клик
             onClick={() => setModalContent({
                 title, country, description, img, price, acidity,
                 available,
@@ -39,7 +40,8 @@ export const ProductCard = ({ title, country, price, description, img,
                 type,
             })}
         >
-            {available && <Badges label={label} />}
+            {/* {available && <Badges label={label} />} */}
+            <Badges label={label} />
             <img src={`assets/content/${img}.jpg`} className="card-img-top img-fluid" alt={title}
                 style={
                     !available ? { height: '170px', filter: 'grayscale(100%)' } : { height: '170px' }
@@ -47,6 +49,7 @@ export const ProductCard = ({ title, country, price, description, img,
             <div className="card-body px-0 pb-0">
                 <p className="card-title text-end">{title}</p>
                 <p className="card-text text-end">{country}</p>
+                <p className="card-text text-end">{brand}</p>
                 <p className="card-text text-end fw-bold">{price}$</p>
             </div>
         </div>

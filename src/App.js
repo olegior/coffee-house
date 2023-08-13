@@ -58,11 +58,11 @@ export const App = () => {
   })
 
   return (
-    <>
+    // <>
       <ModalContext.Provider value={[modalContent, setModalContent]}>
         <RouterProvider router={router} />
         <Modal />
       </ModalContext.Provider>
-    </>
+    // </> 
   )
 }
