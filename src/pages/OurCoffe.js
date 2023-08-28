@@ -25,16 +25,22 @@ export const OurCoffe = () => {
         setPageQty(Math.ceil(PRODUCTSQTY / limit));
     }, [PRODUCTSQTY, limit])
 
-    const [request, setRequest] = useState({
-        _page: page,
-        _limit: limit,
-    });
+    // const [request, setRequest] = useState({
+    //     _page: page,
+    //     _limit: limit,
+    // });
 
     useEffect(() => {
-        getProducts(request).then(setProducts);
+        getProducts(
+            // request
+            {
+                _page: page,
+                _limit: limit,
+            }
+        ).then(setProducts);
     }, [page, limit,
         pageQty,
-        request
+        // request
     ]);
     // обработчик изменений лимита
     const handleLimit = (limit) => {
