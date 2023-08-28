@@ -1,12 +1,19 @@
+import { Link } from 'react-router-dom'
+import { useState, useEffect } from 'react'
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { About } from '../components/About'
 import { ProductCard } from '../components/ProductCard'
-
-import { Link} from 'react-router-dom'
 import { Carousel } from '../components/Carousel'
 
-export const MainPage = ({ products }) => {
+import getProducts from '../utils/getProducts'
+
+export const MainPage = () => {
+    const [products, setProducts] = useState([])
+    useEffect(() => {
+        getProducts({ best: true, available: true }).then(setProducts);
+        // getProducts('?best=true&available=true').then(setProducts);
+    }, [])
     return (
         <>
             <Header img='main'>
@@ -36,7 +43,7 @@ export const MainPage = ({ products }) => {
                 backgroundSize: 'cover'
             }} >
                 <h2 className='text-center py-5 container' >Our best</h2>
-                <Carousel products = {products.filter(product => product.best)}/>
+                <Carousel products={products.filter(product => product.best)} />
                 {/* <div className='best container d-flex flex-row justify-content-evenly flex-wrap gap-5 pb-5'>
                     {
                         products.filter(product => product.best)

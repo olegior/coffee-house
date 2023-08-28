@@ -3,7 +3,7 @@ import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Description } from '../components/Description'
 import { About } from '../components/About'
-import { Products } from '../components/Products'
+// import { Products } from '../components/Products'
 
 export const ForYourPleasure = ({ products }) => {
     return (
@@ -22,8 +22,8 @@ export const ForYourPleasure = ({ products }) => {
                             is song that held help face.</p>
                     </About>
                 </Description>
-                <div className='border-bottom border-black mx-auto my-5' style={{ width: 240, height: 1 }} />
-                <Products products={products} />
+                {/* <div className='border-bottom border-black mx-auto my-5' style={{ width: 240, height: 1 }} /> */}
+                {/* <Products products={products} /> */}
             </div>
             <Footer />
         </>

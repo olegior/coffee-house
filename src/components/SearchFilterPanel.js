@@ -1,19 +1,21 @@
 import { Filtration } from './Filtration'
 import { RangeFiltration } from './RangeFiltration'
+import { SearchPanel } from './SearchPanel'
 import { Sorting } from './Sorting'
 
-export const SearchFilterPanel = ({ filters, filters: [countries, brands, roast, type, available, label], 
-    search, filter, sorting, isAvailable, rangeFilters, handleRangeFilter, handleLabelFilter }) => {
+export const SearchFilterPanel = ({ filters, filters: [countries, brands, roast, type, available, label],
+    search, filter, sorting, isAvailable, rangeFilters, handleRangeFilter, handleLabelFilter, limits, handleLimit }) => {
     // console.log(label);
     return (
         <>
             <div className="d-flex flex-row flex-wrap my-4 justify-content-between align-items-center">
-                <Sorting sorting={sorting} />
-
-                <div className="my-2 d-flex flex-row form-group justify-content-between">
-                    <label htmlFor="inputSearch" className='col-form-label text-nowrap'>Looking for</label>
-                    <input className="form-control shadow" placeholder='type coffee title...' id="inputSearch" type="text" aria-label="search input" onChange={(e) => search(e.target.value)} />
-                </div>
+                <Sorting sorting={sorting}/>
+                <SearchPanel search={search}/>
+                <select className="form-select" aria-label="Elements per page" onChange={(e) => handleLimit(e.target.value)}
+                    style={{ width: "100px" }}
+                >
+                    {limits.map(e => <option key={e} value={e}>{e}</option>)}
+                </select>
             </div>
             <div className='filters my-4 gap-2 d-flex flex-row justify-content-center align-items-center'>
                 <label htmlFor="filters">Filter by</label>
