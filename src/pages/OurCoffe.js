@@ -1,17 +1,59 @@
 import { useState, useEffect } from 'react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-import { Description } from '../components/Description'
-import { About } from '../components/About'
+// import { Description } from '../components/Description'
+// import { About } from '../components/About'
 import { Products } from '../components/Products'
 import { SearchFilterPanel } from '../components/SearchFilterPanel'
 
-export const OurCoffe = ({ products }) => {
-    const country = [...new Set(products.map(product => product.country))];
-    const brand = [...new Set(products.map(product => product.brand))];
-    const roast = [...new Set(products.map(product => product.roast))];
-    const type = [...new Set(products.map(product => product.type))];
-    const label = [...new Set(products.map(e => e.label).flat(1))];
+import getProducts from '../utils/getProducts'
+import { Pagination } from '../components/Pagination'
+
+export const OurCoffe = () => {
+
+    // кол-во продуктов определяется запросом без учета страниц
+    const PRODUCTSQTY = 100;
+    // подобрать подходящие лимиты
+    const LIMITS = [10, 16, 25];
+    const [products, setProducts] = useState([])
+
+    const [page, setPage] = useState(1); // текущая страница
+    const [limit, setLimit] = useState(LIMITS[0]); // лимит по умолчанию
+    const [pageQty, setPageQty] = useState(1); // кол-во страниц
+
+    useEffect(() => {
+        setPageQty(Math.ceil(PRODUCTSQTY / limit));
+    }, [PRODUCTSQTY, limit])
+
+    const [request, setRequest] = useState({
+        _page: page,
+        _limit: limit,
+    });
+
+    useEffect(() => {
+        getProducts(request).then(setProducts);
+    }, [page, limit,
+        pageQty,
+        request
+    ]);
+    // обработчик изменений лимита
+    const handleLimit = (limit) => {
+        setPage(1);
+        setLimit(limit)
+    }
+
+    const getFilters = (filter) => {
+        return [...new Set(products.map(e => e[filter]).flat(1))]
+    }
+
+    // const country = getFilters('country');
+    // const brand = getFilters('brand');
+    // const roast = getFilters('roast');
+    // const type = getFilters('type');
+    const label = getFilters('label');
+
+    // const label = [...new Set(products.map(e => e.label).flat(1))];
+
 
     const [visibleProducts, setVisibleProducts] = useState([]);
     const [searchReq, setSearchReq] = useState('');
@@ -28,10 +70,10 @@ export const OurCoffe = ({ products }) => {
         // roast: roast.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
         // type: type.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
         // label: label.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-        country: createFilter(country),
-        brand: createFilter(brand),
-        roast: createFilter(roast),
-        type: createFilter(type),
+        country: createFilter(getFilters('country')),
+        brand: createFilter(getFilters('brand')),
+        roast: createFilter(getFilters('roast')),
+        type: createFilter(getFilters('type')),
     }
     );
 
@@ -69,6 +111,7 @@ export const OurCoffe = ({ products }) => {
     }
 
     const filterVisibleProducts = (products) => {
+        console.log(filters);
         // преобразование в удобный вид
         const activeFilters = Object.keys(filters)
             .map(e => ({
@@ -96,7 +139,7 @@ export const OurCoffe = ({ products }) => {
                 return e.label.filter(label => activeLabels.includes(label)).length;
             });
         }
-        console.log(visibleProducts.length);
+        // console.log(visibleProducts.length);
 
         // console.log(visibleProducts);
         // если фильтры не установлены - вернуть исходный массив
@@ -159,7 +202,7 @@ export const OurCoffe = ({ products }) => {
                 )
             )
         );
-    }, [searchReq, sortBy, filters, available, rangeFilters, labelFilter]);
+    }, [searchReq, sortBy, filters, available, rangeFilters, labelFilter, products]);
 
     return (
         <>
@@ -167,7 +210,7 @@ export const OurCoffe = ({ products }) => {
                 <h2 className='my-5'>Our Coffee</h2>
             </Header>
             <div className='container-lg'>
-                <Description img='ourcoffee'>
+                {/* <Description img='ourcoffee'>
                     <About title={'About our beans'}>
                         <p className='lead text-center'>Extremity sweetness difficult behaviour he of. On disposal of as landlord horrible.</p>
                         <p className='lead text-center'>Afraid at highly months do things on at. Situation recommend objection do intention
@@ -176,16 +219,30 @@ export const OurCoffe = ({ products }) => {
                             met spot shy want. Children me laughing we prospect answered followed. At it went
                             is song that held help face.</p>
                     </About>
-                </Description>
-                <div className='border-bottom border-black mx-auto' style={{ width: 240, height: 1 }} />
+                </Description> */}
+                {/* <div className='border-bottom border-black mx-auto' style={{ width: 240, height: 1 }} /> */}
 
-                <SearchFilterPanel filters={[country, brand, roast, type, available, label]}
+                <h2 className='mt-5 text-center'>Our coffe...</h2>
+
+                <SearchFilterPanel filters={[
+                    getFilters('country'),
+                    getFilters('brand'),
+                    getFilters('roast'),
+                    getFilters('type'),
+                    // country
+                    // brand, 
+                    // roast, 
+                    // type, 
+                    available, label]}
                     rangeFilters={rangeFilters} handleRangeFilter={handleRangeFilter}
                     handleLabelFilter={handleLabelFilter}
                     search={setSearchReq} filter={toggleFilter} sorting={setSortBy}
                     isAvailable={setAvailable}
+                    limits={LIMITS}
+                    handleLimit={handleLimit}
                 />
                 <Products products={visibleProducts} />
+                <Pagination qty={pageQty} page={page} setPage={setPage} />
             </div>
             <Footer />
         </>
