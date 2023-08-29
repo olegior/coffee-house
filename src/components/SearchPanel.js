@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const SearchPanel = ({search}) => {
+export const SearchPanel = ({ search }) => {
     return (
         <div className="my-2 d-flex flex-row form-group justify-content-between">
             <label htmlFor="inputSearch" className='col-form-label text-nowrap'>Looking for</label>

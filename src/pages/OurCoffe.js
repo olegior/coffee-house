@@ -11,71 +11,32 @@ import { Pagination } from '../components/Pagination'
 
 export const OurCoffe = () => {
 
-    // кол-во продуктов определяется запросом без учета страниц
-    const PRODUCTSQTY = 100;
+    // кол-во продуктов, из запроса
+    const [totalCount, setTotalCount] = useState(0);
     // подобрать подходящие лимиты
-    const LIMITS = [10, 16, 25];
+    const LIMITS = [15, 25, 50]; // 10,16,25
     const [products, setProducts] = useState([])
 
     const [page, setPage] = useState(1); // текущая страница
     const [limit, setLimit] = useState(LIMITS[0]); // лимит по умолчанию
     const [pageQty, setPageQty] = useState(1); // кол-во страниц
 
-    useEffect(() => {
-        setPageQty(Math.ceil(PRODUCTSQTY / limit));
-    }, [PRODUCTSQTY, limit])
-
-    // const [request, setRequest] = useState({
-    //     _page: page,
-    //     _limit: limit,
-    // });
-
-    useEffect(() => {
-        getProducts(
-            // request
-            {
-                _page: page,
-                _limit: limit,
-            }
-        ).then(setProducts);
-    }, [page, limit,
-        pageQty,
-        // request
-    ]);
-    // обработчик изменений лимита
-    const handleLimit = (limit) => {
-        setPage(1);
-        setLimit(limit)
-    }
+    // const [visibleProducts, setVisibleProducts] = useState([]);
+    const [searchReq, setSearchReq] = useState('');
+    const [sortBy, setSortBy] = useState(['id', 'asc']);
+    const [available, setAvailable] = useState(true);
 
     const getFilters = (filter) => {
         return [...new Set(products.map(e => e[filter]).flat(1))]
     }
 
-    // const country = getFilters('country');
-    // const brand = getFilters('brand');
-    // const roast = getFilters('roast');
-    // const type = getFilters('type');
     const label = getFilters('label');
-
-    // const label = [...new Set(products.map(e => e.label).flat(1))];
-
-
-    const [visibleProducts, setVisibleProducts] = useState([]);
-    const [searchReq, setSearchReq] = useState('');
-    const [sortBy, setSortBy] = useState('');
-    const [available, setAvailable] = useState(false);
 
     const createFilter = (array) => {
         return array.reduce((acc, e) => ({ ...acc, [e]: false }), {});
     }
 
     const [filters, setFilters] = useState({
-        // country: country.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-        // brand: brand.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-        // roast: roast.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-        // type: type.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
-        // label: label.reduce((acc, e) => ({ ...acc, [e]: false }), {}),
         country: createFilter(getFilters('country')),
         brand: createFilter(getFilters('brand')),
         roast: createFilter(getFilters('roast')),
@@ -89,10 +50,70 @@ export const OurCoffe = () => {
     });
 
     const [labelFilter, setLabelFilter] = useState({ ...createFilter(label) })
-    // console.log(labelFilter, rangeFilters, filters);
+
+
+    useEffect(() => {
+        setPageQty(Math.ceil(totalCount / limit)) // округление до большего
+    }, [limit, totalCount]);
+
+
+    // const [request, setRequest] = useState({
+    //     _page: page,
+    //     _limit: limit,
+    // });
+
+    const filtersToRequest = (filters) => {
+        const request = Object.entries(filters).map(([key, value])=>{
+            console.log(key,value);
+            return `${key}`
+        })
+        return request;
+    }
+
+    console.log(filtersToRequest(filters));
+
+    useEffect(() => {
+        getProducts(
+            // request
+            {
+                _page: page,
+                _limit: limit,
+                _sort: sortBy[0],
+                _order: sortBy[1],
+                'acidity_gte=1&acidity_lte': rangeFilters['acidity'],
+                'density_gte=1&density_lte': rangeFilters['density'],
+                available,
+                title_like: searchReq,
+
+            }
+        ).then(res => {
+            setProducts(res.data);
+            // console.log(res);
+            setTotalCount(res.headers['x-total-count']);
+        });
+    }, [page, limit,
+        pageQty,
+        sortBy,
+        available,
+        searchReq,
+        rangeFilters
+        // request
+    ]);
+
+    // обработчик изменений лимита
+    const handleLimit = (limit) => {
+        setPage(1);
+        setLimit(limit)
+    }
+
+
+    console.log(
+        // labelFilter, 
+        // rangeFilters,
+        // filters
+    );
     const handleRangeFilter = (name, value) => {
         setRangeFilters((prev) => {
-            console.log({ ...prev, [name]: +value });
             return { ...prev, [name]: +value }
         })
     }
@@ -104,7 +125,7 @@ export const OurCoffe = () => {
     }
 
     const toggleFilter = (title, item) => {
-        // console.log(title, item);
+        console.log(title, item);
         setFilters((prev) => {
             return ({
                 ...prev,
@@ -116,99 +137,75 @@ export const OurCoffe = () => {
         })
     }
 
-    const filterVisibleProducts = (products) => {
-        console.log(filters);
-        // преобразование в удобный вид
-        const activeFilters = Object.keys(filters)
-            .map(e => ({
-                [e]: Object.keys(filters[e])
-                    .filter(key => Boolean(filters[e][key]))
-            }))
+    // const filterVisibleProducts = (products) => {
+    //     console.log(filters);
+    //     // преобразование в удобный вид
+    //     const activeFilters = Object.keys(filters)
+    //         .map(e => ({
+    //             [e]: Object.keys(filters[e])
+    //                 .filter(key => Boolean(filters[e][key]))
+    //         }))
 
-        // копируем массив и фильтруем
-        let visibleProducts = structuredClone(products);
-        //если активирован range
-        visibleProducts = visibleProducts.filter(e =>
-            e.acidity <= rangeFilters.acidity && e.density <= rangeFilters.density);
+    //     // копируем массив и фильтруем
+    //     let visibleProducts = structuredClone(products);
+    //     //если активирован range
+    //     visibleProducts = visibleProducts.filter(e =>
+    //         e.acidity <= rangeFilters.acidity && e.density <= rangeFilters.density);
 
-        const activeLabels = [];
-        for (let label in labelFilter) {
-            if (labelFilter[label])
-                activeLabels.push(label)
-        }
+    //     const activeLabels = [];
+    //     for (let label in labelFilter) {
+    //         if (labelFilter[label])
+    //             activeLabels.push(label)
+    //     }
 
-        if (activeLabels.length) {
-            visibleProducts = visibleProducts.filter(e => {
-                if (!e.label.length) {
-                    return false;
-                }
-                return e.label.filter(label => activeLabels.includes(label)).length;
-            });
-        }
-        // console.log(visibleProducts.length);
+    //     if (activeLabels.length) {
+    //         visibleProducts = visibleProducts.filter(e => {
+    //             if (!e.label.length) {
+    //                 return false;
+    //             }
+    //             return e.label.filter(label => activeLabels.includes(label)).length;
+    //         });
+    //     }
+    //     // console.log(visibleProducts.length);
 
-        // console.log(visibleProducts);
-        // если фильтры не установлены - вернуть исходный массив
+    //     // console.log(visibleProducts);
+    //     // если фильтры не установлены - вернуть исходный массив
 
-        // if (!activeFilters.filter(e => {
-        //     const [values] = Object.values(e);
-        //     return values.length
-        // }).length && !available)
-        //     return products
+    //     // if (!activeFilters.filter(e => {
+    //     //     const [values] = Object.values(e);
+    //     //     return values.length
+    //     // }).length && !available)
+    //     //     return products
 
-        // переделать
-        if (available) {
-            visibleProducts = visibleProducts.filter(product => product.available)
-        }
+    //     // переделать
+    //     if (available) {
+    //         visibleProducts = visibleProducts.filter(product => product.available)
+    //     }
 
 
-        activeFilters.forEach(e => {
-            const [[key, value]] = Object.entries(e);
-            if (value.length) {
-                visibleProducts = visibleProducts
-                    .filter(product => value.includes(product[key]));
-                // console.log(visibleProducts);
-            }
-        })
+    //     activeFilters.forEach(e => {
+    //         const [[key, value]] = Object.entries(e);
+    //         if (value.length) {
+    //             visibleProducts = visibleProducts
+    //                 .filter(product => value.includes(product[key]));
+    //             // console.log(visibleProducts);
+    //         }
+    //     })
 
-        return visibleProducts
-    }
+    //     return visibleProducts
+    // }
 
-    const sortProducts = (products) => {
-        if (!sortBy.length)
-            return products
-        const [prop, direction] = sortBy.split('-');
-        const sorted = structuredClone(products);
-        // переделать сортировку
-        sorted.sort((a, b) => {
-            if (direction === 'up') {
-                if (!isNaN(sorted[prop]))
-                    return a[prop] - b[prop]
-                return a[prop].localeCompare(b[prop]);
-            } else {
-                if (!isNaN(sorted[prop]))
-                    return b[prop] - a[prop]
-                return b[prop].localeCompare(a[prop]);
-            }
-        });
-        return sorted;
-    }
-
-    const searchTitle = (products) => {
-        return products.filter(product => product.title.toLowerCase().startsWith(searchReq.toLowerCase()));
-    }
-
-    useEffect(() => {
-        setVisibleProducts(
-            sortProducts(
-                filterVisibleProducts(
-                    searchTitle(
-                        products
-                    )
-                )
-            )
-        );
-    }, [searchReq, sortBy, filters, available, rangeFilters, labelFilter, products]);
+    // useEffect(() => {
+    //     setVisibleProducts(
+    //         // sortProducts(
+    //         filterVisibleProducts(
+    //             // searchTitle(
+    //             products
+    //             // )
+    //         )
+    //         // )
+    //     );
+    // }, [searchReq, sortBy, filters, available, rangeFilters, labelFilter, products]);
 
     return (
         <>
@@ -230,16 +227,21 @@ export const OurCoffe = () => {
 
                 <h2 className='mt-5 text-center'>Our coffe...</h2>
 
-                <SearchFilterPanel filters={[
-                    getFilters('country'),
-                    getFilters('brand'),
-                    getFilters('roast'),
-                    getFilters('type'),
-                    // country
-                    // brand, 
-                    // roast, 
-                    // type, 
-                    available, label]}
+                <SearchFilterPanel filters={
+
+                    {
+                        country: getFilters('country'),
+                        brand: getFilters('brand'),
+                        roast: getFilters('roast'),
+                        type: getFilters('type'),
+                        // country
+                        // brand, 
+                        // roast, 
+                        // type, 
+                        // label
+                    }}
+                    label={label}
+                    available={available}
                     rangeFilters={rangeFilters} handleRangeFilter={handleRangeFilter}
                     handleLabelFilter={handleLabelFilter}
                     search={setSearchReq} filter={toggleFilter} sorting={setSortBy}
@@ -247,7 +249,8 @@ export const OurCoffe = () => {
                     limits={LIMITS}
                     handleLimit={handleLimit}
                 />
-                <Products products={visibleProducts} />
+                <Products products={products} />
+                {/* <Products products={visibleProducts} /> */}
                 <Pagination qty={pageQty} page={page} setPage={setPage} />
             </div>
             <Footer />

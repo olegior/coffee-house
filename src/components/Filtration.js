@@ -1,6 +1,9 @@
-export const Filtration = ({ filter, items, title }) => {
+export const Filtration = ({ filter, items=[], title }) => {
+    // console.log('from filtration',items);
     return (
-        <div className="dropdown px-2">
+        <div className="dropdown px-2"
+        // style={{width:'200px'}}
+        >
             <button className="btn btn-secondary dropdown-toggle bg-body text-dark border-1 border-light-subtle shadow"
                 type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-theme="light">
                 {title}

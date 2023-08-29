@@ -7,7 +7,7 @@ import { Modal } from './components/Modal.js'
 import { ForYourPleasure } from './pages/ForYourPleasure.js'
 import { MainPage } from './pages/MainPage.js'
 import { OurCoffe } from './pages/OurCoffe.js'
-import { ProductCard } from './components/ProductCard.js';
+// import { ProductCard } from './components/ProductCard.js';
 
 export const ModalContext = createContext()
 

@@ -92,9 +92,9 @@ header .nav-link {
     gap: 1rem !important;
   }
 
-  .filters {
+  /* .filters {
     flex-direction: column !important;
-  }
+  } */
 
   .row>.col-md-4,
   .row>div.col-md-8 {
