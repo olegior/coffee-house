@@ -47,6 +47,7 @@ export const ProductCard = ({ title, country, price, description, img,
                     !available ? { height: '170px', filter: 'grayscale(100%)' } : { height: '170px' }
                 } />
             <div className="card-body px-0 pb-0">
+                <p className="card-title text-end">{id}</p>
                 <p className="card-title text-end">{title}</p>
                 <p className="card-text text-end">{country}</p>
                 <p className="card-text text-end">{brand}</p>

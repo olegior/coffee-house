@@ -11,7 +11,7 @@ import getProducts from '../utils/getProducts'
 export const MainPage = () => {
     const [products, setProducts] = useState([])
     useEffect(() => {
-        getProducts({ best: true, available: true }).then(setProducts);
+        getProducts({ best: true, available: true }).then(resp => setProducts(resp.data));
         // getProducts('?best=true&available=true').then(setProducts);
     }, [])
     return (
@@ -43,7 +43,8 @@ export const MainPage = () => {
                 backgroundSize: 'cover'
             }} >
                 <h2 className='text-center py-5 container' >Our best</h2>
-                <Carousel products={products.filter(product => product.best)} />
+                {/* <Carousel products={products.filter(product => product.best)} /> */}
+                <Carousel products={products} />
                 {/* <div className='best container d-flex flex-row justify-content-evenly flex-wrap gap-5 pb-5'>
                     {
                         products.filter(product => product.best)

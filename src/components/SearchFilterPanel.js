@@ -21,7 +21,7 @@ export const SearchFilterPanel = ({ filters,
                 <SearchPanel search={search} />
                 <Sorting sorting={sorting} />
                 <select className="form-select" aria-label="Elements per page" onChange={(e) => handleLimit(e.target.value)}
-                    style={{ width: "100px" }}
+                    style={{ width: "70px" }}
                 >
                     {limits.map(e => <option key={e} value={e}>{e}</option>)}
                 </select>
@@ -42,22 +42,14 @@ export const SearchFilterPanel = ({ filters,
 
                 <div className="form-check form-switch">
                     <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={checked}
-                        onChange={handleCheked}
-                    // onChange={e => isAvailable(e.target.checked)} 
-
-                    />
+                        onChange={handleCheked} />
                     <label className="form-check-label" htmlFor="flexSwitchCheckDefault">available</label>
                 </div>
-                {/* <Filtration filter={filter} items={brand} title={'brand'} />
-                <Filtration filter={filter} items={country} title={'country'} />
-                <Filtration filter={filter} items={roast} title={'roast'} />
-                <Filtration filter={filter} items={type} title={'type'} /> */}
-                {/* <Filtration filter={handleLabelFilter} items={label} title={'label'} /> */}
 
                 {Object.entries(filters).map(([key, value]) => {
                     return !!value && <Filtration key={key} filter={filter} items={value} title={key} />
                 })}
-                <Filtration filter={handleLabelFilter} items={label} title={'label'} />
+                {/* <Filtration filter={handleLabelFilter} items={label} title={'label'} /> */}
 
                 <RangeFiltration cb={handleRangeFilter} title='acidity' rangValue={rangeFilters['acidity']} />
                 <RangeFiltration cb={handleRangeFilter} title='density' rangValue={rangeFilters['density']} />

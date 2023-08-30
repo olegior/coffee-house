@@ -1,19 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { ProductCard } from './ProductCard';
 
-export const Carousel = ({ products }) => {
-
+export const Carousel = ({ products = [] }) => {
+    console.log(products);
+    const [active, setActive] = useState(0);
     return (
         <div id="carousel" className="carousel slide carousel-dark"
         // data-bs-theme="dark"
         >
-            <div className="carousel-inner 
-            justify-content-center d-flex
-            ">
+            {/* <div className="carousel-inner justify-content-center d-flex"> */}
+
+            <div className="carousel-inner">
                 {products.map((product, i) => {
-                    let className = 'carousel-item';
+                    let className = 'carousel-item ';
                     return (<div
-                        className={!i ? className + ' active' : className}
+                        className={active === i ? className + ' active' : className}
+                        // className={className}
                         key={i}
                     >
                         <ProductCard {...product} />

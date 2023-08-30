@@ -47,6 +47,11 @@ header .nav-link {
   margin: 5px;
 }
 
+/* .product-card.active{
+  display: flex;
+  justify-content: center;
+} */
+
 .product-card:hover {
   outline: 1px solid rgb(180, 180, 180);
 }

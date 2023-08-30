@@ -5,6 +5,8 @@ const getProducts = async (parametrs) => {
         .map(([key, value]) => {
             if (!value)
                 return '';
+            if (key === 'filters')
+                return value;
             return `${key}=${value}`
         })
         .join('&');
