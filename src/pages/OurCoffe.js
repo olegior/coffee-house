@@ -22,6 +22,10 @@ export const OurCoffe = () => {
     const [sortBy, setSortBy] = useState(['id', 'asc']);
     const [available, setAvailable] = useState(true);
 
+    // let products = [];
+    // products = useMemo(async () => await getProducts({}).data)
+
+
     const getFilters = (filter) => {
         return [...new Set(products.map(e => e[filter]).flat(1))]
     }
@@ -40,6 +44,8 @@ export const OurCoffe = () => {
     });
 
     // получение всего массива продуктов
+
+
     useEffect(() => {
         try {
             getProducts({}).then(resp => {
@@ -83,6 +89,7 @@ export const OurCoffe = () => {
                 setVisibleProducts(res.data);
                 setTotalCount(+res.headers['x-total-count']);
             });
+            window.scrollTo(0, 0);
         }
         catch (err) {
             console.log(err);
