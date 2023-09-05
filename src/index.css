@@ -65,12 +65,8 @@ header .nav-link {
     object-fit: contain !important;
   }
 
-
   .full-product-card.product-card img.card-img-top.img-fluid {
-    /* width: 60% !important; */
     margin: 0 auto !important;
-    /* object-fit: scale-down; */
-    height: auto !important;
   }
 
   .full-product-card {
@@ -93,7 +89,6 @@ header .nav-link {
     max-width: 100% !important;
     flex-direction: row;
   }
-
 
   .product-card img {
     max-width: 50% !important;
