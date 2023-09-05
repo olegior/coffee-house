@@ -16,7 +16,7 @@ export const Header = ({ img, children }) => {
             backgroundSize: 'cover'
 
         }}>
-            <Navigation white />
+            <Navigation color />
             <div className='d-flex flex-column align-items-center justify-content-evenly container'>{children}</div>
         </header>
     )

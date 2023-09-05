@@ -11,7 +11,7 @@ export const Modal = () => {
         density, label,
         // ...other
     } = modalContent;
-    const cardItems = ['country', 'brand', 'price', 'category', 'roastDegree', 'taste', 'type',];
+    const cardItems = ['country', 'brand', 'price', 'category', 'roast', 'taste', 'type',];
     return (
         <div className="modal fade" id="modal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog modal-xl modal-dialog-scrollable">

@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { ProductCard } from './ProductCard';
 
 export const Carousel = ({ products = [] }) => {
     console.log(products);
-    const [active, setActive] = useState(0);
     return (
         <div id="carousel" className="carousel slide carousel-dark"
-        // data-bs-theme="dark"
+            // data-bs-theme="dark"
+            data-bs-ride="true"
         >
             {/* <div className="carousel-inner justify-content-center d-flex"> */}
 
@@ -14,11 +14,13 @@ export const Carousel = ({ products = [] }) => {
                 {products.map((product, i) => {
                     let className = 'carousel-item ';
                     return (<div
-                        className={active === i ? className + ' active' : className}
+                        className={i === 0 ? className + ' active' : className}
                         // className={className}
                         key={i}
                     >
-                        <ProductCard {...product} />
+                        {/* <CarouselProduct {...product} /> */}
+                        <ProductCard {...product} full />
+
                     </div>)
                 })}
             </div>

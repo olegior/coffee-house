@@ -8,13 +8,11 @@ const getProducts = async (parametrs) => {
             if (key === 'filters')
                 return value;
             return `${key}=${value}`
-        })
-        .join('&');
-    // console.log(request);
+        }).filter(Boolean).join('&');
+
     while (request[request.length - 1] === '&') {
-        request = request.slice(0, request.length - 1)
+        request = request.slice(0, request.length - 1);
     }
-    // console.log(request);
 
     const response = await axios
         .get(`https://coffee-house-server.vercel.app/products/?${request}`);
