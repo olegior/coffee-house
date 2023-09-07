@@ -3,12 +3,13 @@ import { Filtration } from './Filtration'
 import { RangeFiltration } from './RangeFiltration'
 import { SearchPanel } from './SearchPanel'
 import { Sorting } from './Sorting'
+// import { Link } from 'react-router-dom'
 
 export const SearchFilterPanel = ({ filters,
     // filters: [country, brand, roast, type, available, label],
     label,
     available,
-    search, filter, sorting, isAvailable, rangeFilters, handleRangeFilter, handleLabelFilter, limits, handleLimit }) => {
+    search, filter, sorting, isAvailable, rangeFilters, handleRangeFilter, handleLabelFilter, limits, handleLimit, searchReq, isFiltred }) => {
     // console.log(filters);
     const [checked, setCheked] = useState(available)
     const handleCheked = (e) => {
@@ -18,13 +19,19 @@ export const SearchFilterPanel = ({ filters,
     return (
         <>
             <div className="d-flex flex-row flex-wrap my-4 justify-content-between align-items-center">
-                <SearchPanel search={search} />
                 <Sorting sorting={sorting} />
+                <SearchPanel search={search} searchReq={searchReq} />
+
                 <select className="form-select" aria-label="Elements per page" onChange={(e) => handleLimit(e.target.value)}
                     style={{ width: "70px" }}
                 >
                     {limits.map(e => <option key={e} value={e}>{e}</option>)}
                 </select>
+
+
+                {/* {isFiltred && <Link onClick={()=>{
+                    // setRangeFilters
+                }}>clear all filters</Link>} */}
             </div>
             <div className='filters my-4 gap-2 d-flex flex-row flex-wrap justify-content-evenly'>
                 {/* <label htmlFor="filters">Filter by</label> */}
@@ -40,19 +47,23 @@ export const SearchFilterPanel = ({ filters,
                     </div> */}
                 {/* checkbox поменял на switch */}
 
-                <div className="form-check form-switch">
+                <div className="form-check form-switch pt-2"
+                    style={{ minWidth: '150px' }}
+                >
                     <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={checked}
                         onChange={handleCheked} />
                     <label className="form-check-label" htmlFor="flexSwitchCheckDefault">available</label>
                 </div>
 
-                {Object.entries(filters).map(([key, value]) => {
-                    return !!value && <Filtration key={key} filter={filter} items={value} title={key} />
-                })}
+                {
+                    Object.entries(filters).map(([key, value]) => {
+                        return !!value && <Filtration key={key} filter={filter} items={value} title={key} />
+                    })
+                }
                 {/* <Filtration filter={handleLabelFilter} items={label} title={'label'} /> */}
 
-                <RangeFiltration cb={handleRangeFilter} title='acidity' rangValue={rangeFilters['acidity']} />
-                <RangeFiltration cb={handleRangeFilter} title='density' rangValue={rangeFilters['density']} />
+                <RangeFiltration key='acidity' cb={handleRangeFilter} title='acidity' rangValue={rangeFilters['acidity']} />
+                <RangeFiltration key='density' cb={handleRangeFilter} title='density' rangValue={rangeFilters['density']} />
                 {/* </div> */}
             </div>
         </>

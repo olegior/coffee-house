@@ -1,8 +1,6 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
-// import { Description } from '../components/Description'
-// import { About } from '../components/About'
 import { Products } from '../components/Products'
 import { SearchFilterPanel } from '../components/SearchFilterPanel'
 
@@ -21,7 +19,9 @@ export const OurCoffe = () => {
     const [searchReq, setSearchReq] = useState('');
     const [sortBy, setSortBy] = useState(['id', 'asc']);
     const [available, setAvailable] = useState(true);
+    const [isFiltred, setIsFiltred] = useState(false);
 
+    console.log(isFiltred);
     // let products = [];
     // products = useMemo(async () => await getProducts({}).data)
 
@@ -66,11 +66,25 @@ export const OurCoffe = () => {
         setPage(1);
     }, [sortBy, available, filters, pageQty, limit, searchReq, rangeFilters])
 
-    // scroll >?
 
-    // useEffect(() => {
-    //     document.querySelector('h1').scrollIntoView(false);
-    // }, [page])
+
+    useEffect(() => {
+        let isFiltredValue = false;
+        for (let filter in filters) {
+            if (filters[filter].length)
+                isFiltredValue = true;
+        }
+        for (let filter in rangeFilters) {
+            if (rangeFilters[filter].length)
+                isFiltredValue = true;
+        }
+        if (searchReq.length)
+            isFiltredValue = true;
+
+        if (isFiltredValue)
+            setIsFiltred(isFiltredValue);
+
+    }, [filters, rangeFilters, searchReq])
 
     useEffect(() => {
         try {
@@ -99,7 +113,7 @@ export const OurCoffe = () => {
     const handleRangeFilter = (name, value) => {
         setRangeFilters((prev) => {
             return { ...prev, [name]: +value }
-        })
+        });
     }
 
     const toggleFilter = (title, item) => {
@@ -156,11 +170,13 @@ export const OurCoffe = () => {
                     available={available}
                     rangeFilters={rangeFilters} handleRangeFilter={handleRangeFilter}
                     // handleLabelFilter={handleLabelFilter}
+                    searchReq={searchReq}
                     search={setSearchReq} filter={toggleFilter} sorting={setSortBy}
                     isAvailable={setAvailable}
                     limits={LIMITS}
                     // handleLimit={handleLimit}
                     handleLimit={setLimit}
+                    isFiltred={isFiltred}
                 />
                 <Products products={visibleProducts} />
                 <Pagination qty={pageQty} page={page} setPage={setPage} />

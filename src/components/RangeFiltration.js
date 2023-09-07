@@ -1,7 +1,7 @@
 
 export const RangeFiltration = ({ title, cb, rangValue }) => {
     return (
-        <div className="dropdown px-2">
+        <div className="dropdown">
             <button className="btn btn-secondary dropdown-toggle bg-body text-dark border-1 border-light-subtle shadow"
                 type="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-theme="light">
                 {title}

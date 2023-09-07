@@ -17,6 +17,20 @@ header .nav-link {
   color: black;
 }
 
+.search-button {
+  position: relative;
+  margin-left: -25px;
+}
+
+.dropdown {
+  min-width: 150px;
+}
+
+.dropdown-toggle,
+.dropdown-menu {
+  width: 100%;
+}
+
 .page-item.active>.page-link {
   background: #6d6d6d;
   border: 1px solid black !important;
@@ -24,6 +38,12 @@ header .nav-link {
 
 .pagination {
   color: black !important;
+}
+
+/* .pagination,
+.pagination:active, */
+.pagination *:focus {
+  box-shadow: none !important;
 }
 
 .modal img {
