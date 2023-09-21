@@ -15,7 +15,7 @@ const getProducts = async (parametrs) => {
     }
 
     const response = await axios
-        .get(`https://coffee-house-server.vercel.app/products/?${request}`);
+        .get(`https://olegior-json-server.vercel.app/products/?${request}`);
     // console.log(response);
     return response
 }

@@ -62,7 +62,6 @@ export const OurCoffe = () => {
     }, [limit, totalCount]);
 
     useEffect(() => {
-        console.log('set page 1');
         setPage(1);
     }, [sortBy, available, filters, pageQty, limit, searchReq, rangeFilters])
 
@@ -103,7 +102,8 @@ export const OurCoffe = () => {
                 setVisibleProducts(res.data);
                 setTotalCount(+res.headers['x-total-count']);
             });
-            window.scrollTo(0, 0);
+            // window.scrollTo(0, 0);
+            document.querySelector('.products-section').scrollIntoView(true)
         }
         catch (err) {
             console.log(err);
@@ -140,14 +140,6 @@ export const OurCoffe = () => {
             }
         }
 
-
-        // if (rangeFilters.acidity < 5) {
-        //     request += `acidity_gte=1&acidity_lte=${rangeFilters.acidity}`;
-        // }
-        // if (rangeFilters.density < 5) {
-        //     request += `density_gte=1&density_lte=${rangeFilters.density}`;
-        // }
-
         return request;
     }
 
@@ -156,7 +148,7 @@ export const OurCoffe = () => {
             <Header img='ourcoffee'>
                 <h2 className='my-5'>Our Coffee</h2>
             </Header>
-            <div className='container-lg'>
+            <div className='container products-section'>
                 {/* <h2 className='mt-5 text-center'>Our coffe...</h2> */}
                 <SearchFilterPanel filters={
                     {

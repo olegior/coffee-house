@@ -18,13 +18,13 @@ export const ProductCard = ({ title, country, price, description, img,
     full
 }) => {
     const [, setModalContent] = useContext(ModalContext);
-    const cardClasses = `card shadow p-3 product-card w-100 h-100 ${full && 'flex-row mx-auto full-product-card'} ${!available && 'bg-dark bg-opacity-25'}`; // 
+    const cardClasses = `card shadow p-3 product-card w-100 h-100 ${full && 'flex-row mx-auto full-product-card fs-4'} ${!available && 'bg-dark bg-opacity-25'}`; // 
     const cardStyle = !full ? { maxWidth: '240px', maxHeight: '360px' } : { maxWidth: '75%' };
     const imgStyle = {
         height: full ? '400px' : '170px',
         filter: !available && 'grayscale(100%)',
         maxWidth: full ? '50%' : '100%',
-        objectFit: full ? 'scale-down' : 'fill'
+        objectFit: full ? 'scale-down' : 'contain',
     }
 
     return (

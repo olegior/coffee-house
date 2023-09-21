@@ -33,7 +33,7 @@ export const SearchFilterPanel = ({ filters,
                     // setRangeFilters
                 }}>clear all filters</Link>} */}
             </div>
-            <div className='filters my-4 gap-2 d-flex flex-row flex-wrap justify-content-evenly'>
+            <div className='filters my-4 gap-2 d-flex flex-row flex-wrap justify-content-between align-items-center'>
                 {/* <label htmlFor="filters">Filter by</label> */}
                 {/* <div id="filters" className='d-flex flex-row justify-content-between flex-wrap gap-1'> */}
 
@@ -48,7 +48,7 @@ export const SearchFilterPanel = ({ filters,
                 {/* checkbox поменял на switch */}
 
                 <div className="form-check form-switch pt-2"
-                    style={{ minWidth: '150px' }}
+                    style={{ minWidth: '120px' }}
                 >
                     <input className="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" checked={checked}
                         onChange={handleCheked} />
